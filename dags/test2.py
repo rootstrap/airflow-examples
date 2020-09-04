@@ -1,5 +1,4 @@
 from airflow import DAG
-#from airflow.operators import S3FileTransformOperator
 from airflow.operators.s3_file_transform_operator import S3FileTransformOperator
 
 from datetime import datetime, timedelta
@@ -16,7 +15,10 @@ default_args = {
     "retry_delay": timedelta(minutes=5)
 }
 
-with DAG("s3_example", default_args=default_args, schedule_interval=timedelta(1)) dag:
+with DAG(dag_id="s3_example", 
+    default_args=default_args, 
+    schedule_interval=timedelta(1)
+    ) as dag:
 
     transformer = S3FileTransformOperator(
         task_id='etl_medical_records',
@@ -26,3 +28,4 @@ with DAG("s3_example", default_args=default_args, schedule_interval=timedelta(1)
         replace=False,
         transform_script='scripts/clean_medical_records.py'
     )
+
