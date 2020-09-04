@@ -27,6 +27,6 @@ with DAG(dag_id="s3_example",
         dest_s3_key='s3://rs-champz-test/champz/cleaned_data/100.xml',
         replace=False,
         transform_script='scripts/clean_medical_records.py',
-        aws_conn_id='s3_connection'
+        aws_conn_id='s3'
     )
 
