@@ -29,10 +29,9 @@ sensor = S3KeySensor(
     bucket_key='champz/original_data/100.xml',
     wildcard_match=True,
     bucket_name='rs-champz-test',
-    s3_conn_id='s3_connection',
+    s3_conn_id='s3',
     timeout=18*60*60,
     poke_interval=120,
-    delimiter='/',
     dag=dag)
 
 t1.set_upstream(sensor)
