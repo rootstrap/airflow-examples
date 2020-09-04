@@ -26,7 +26,7 @@ t1 = BashOperator(
 
 sensor = S3KeySensor(
     task_id='check_s3_for_file_in_s3',
-    bucket_key='champz/original_data/*',
+    bucket_key='champz/original_data/100.xml',
     wildcard_match=True,
     bucket_name='rs-champz-test',
     s3_conn_id='s3_connection',
