@@ -32,6 +32,7 @@ sensor = S3KeySensor(
     s3_conn_id='s3_connection',
     timeout=18*60*60,
     poke_interval=120,
+    delimiter='/',
     dag=dag)
 
 t1.set_upstream(sensor)
