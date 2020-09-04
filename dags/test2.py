@@ -18,13 +18,13 @@ dag = DAG("s3_example", default_args=default_args, schedule_interval=timedelta(1
 
 
 transformer = S3FileTransformOperator(
-    dag_id='s3_example',
     task_id='etl_medical_records',
     description='cleans medical etl_medical_records',
     source_s3_key='s3://rs-champz-test/original_data/*',
     dest_s3_key='s3://rs-champz-test/cleaned_data/',
     replace=False,
-    transform_script='scripts/clean_medical_records.py'
+    transform_script='scripts/clean_medical_records.py',
+    dag=dag)
 )
 
 transformer
