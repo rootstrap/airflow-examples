@@ -16,16 +16,13 @@ default_args = {
     "retry_delay": timedelta(minutes=5)
 }
 
-dag = DAG("s3_example", default_args=default_args, schedule_interval=timedelta(1))
+with DAG("s3_example", default_args=default_args, schedule_interval=timedelta(1)) dag:
 
-
-transformer = S3FileTransformOperator(
-    task_id='etl_medical_records',
-    description='cleans medical etl_medical_records',
-    source_s3_key='s3://rs-champz-test/original_data/*',
-    dest_s3_key='s3://rs-champz-test/cleaned_data/',
-    replace=False,
-    transform_script='scripts/clean_medical_records.py'
-)
-
-transformer
+    transformer = S3FileTransformOperator(
+        task_id='etl_medical_records',
+        description='cleans medical etl_medical_records',
+        source_s3_key='s3://rs-champz-test/original_data/*',
+        dest_s3_key='s3://rs-champz-test/cleaned_data/',
+        replace=False,
+        transform_script='scripts/clean_medical_records.py'
+    )
