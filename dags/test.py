@@ -1,6 +1,3 @@
-from airflow import DAG
-from airflow.operators import DummyOperator, PythonOperator
-
 """
 Code that goes along with the Airflow located at:
 http://airflow.readthedocs.org/en/latest/tutorial.html
