@@ -24,7 +24,7 @@ transformer = S3FileTransformOperator(
     dest_s3_key='s3://rs-champz-test/cleaned_data/',
     replace=False,
     transform_script='scripts/clean_medical_records.py',
-    dag=dag)
+    dag=dag
 )
 
 transformer
