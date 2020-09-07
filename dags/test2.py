@@ -30,7 +30,7 @@ with DAG("s3_example", default_args=default_args, schedule_interval=timedelta(1)
         source_s3_key='s3://rs-champz-test/champz/original_data/100.xml',
         dest_s3_key='s3://rs-champz-test/champz/cleaned_data/100.xml',
         replace=False,
-        transform_script='scripts/clean_medical_records.py',
+        transform_script='../scripts/clean_medical_records.py',
         source_aws_conn_id='s3_connection',
         dest_aws_conn_id='s3_connection'
     )
