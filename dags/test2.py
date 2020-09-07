@@ -31,7 +31,8 @@ transformer = S3FileTransformOperator(
     dest_s3_key='s3://rs-champz-test/cleaned_data/',
     replace=False,
     transform_script='scripts/clean_medical_records.py',
-    source_aws_conn_id='s3_connection'
+    source_aws_conn_id='s3_connection',
+    dest_aws_conn_id='s3_connection'
 )
 
 t1.set_upstream(transformer)
