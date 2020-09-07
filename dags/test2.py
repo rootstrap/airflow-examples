@@ -32,7 +32,8 @@ transformer = S3FileTransformOperator(
     replace=False,
     transform_script='scripts/clean_medical_records.py',
     source_aws_conn_id='s3_connection',
-    dest_aws_conn_id='s3_connection'
+    dest_aws_conn_id='s3_connection',
+    dag=dag)
 )
 
 t1.set_upstream(transformer)
