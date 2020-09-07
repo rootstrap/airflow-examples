@@ -18,6 +18,11 @@ default_args = {
 dag = DAG("s3_example", default_args=default_args, schedule_interval=timedelta(1))
 
 
+t1 = BashOperator(
+    task_id='bash_test',
+    bash_command='echo "hello, it should work" > s3_conn_test.txt',
+    dag=dag)
+
 transformer = S3FileTransformOperator(
     task_id='etl_medical_records',
     description='cleans medical etl_medical_records',
@@ -28,4 +33,5 @@ transformer = S3FileTransformOperator(
     source_aws_conn_id='s3_connection'
 )
 
-transformer
+t1.set_upstream(transformer)
+
