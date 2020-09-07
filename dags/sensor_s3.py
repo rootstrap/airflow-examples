@@ -31,6 +31,7 @@ sensor = S3KeySensor(
     bucket_name='rs-champz-test',
     timeout=18*60*60,
     poke_interval=120,
+    aws_conn_id='s3_connection',
     dag=dag)
 
 t1.set_upstream(sensor)
