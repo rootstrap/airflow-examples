@@ -24,7 +24,8 @@ transformer = S3FileTransformOperator(
     source_s3_key='s3://rs-champz-test/original_data/*',
     dest_s3_key='s3://rs-champz-test/cleaned_data/',
     replace=False,
-    transform_script='scripts/clean_medical_records.py'
+    transform_script='scripts/clean_medical_records.py',
+    aws_conn_id='s3_connection'
 )
 
 transformer
