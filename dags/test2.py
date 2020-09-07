@@ -1,5 +1,5 @@
 from airflow import DAG
-from airflow.operators import BashOperator
+from airflow.operators.bash_operator import BashOperator
 from airflow.operators.s3_file_transform_operator import S3FileTransformOperator
 
 from datetime import datetime, timedelta
@@ -8,7 +8,7 @@ from datetime import datetime, timedelta
 default_args = {
     "owner": "airflow",
     "depends_on_past": False,
-    "start_date": datetime(2015, 6, 1),
+    "start_date": datetime(2020, 07, 09),
     "email": ["mikaela.pisani@rootstrap.com"],
     "email_on_failure": False,
     "email_on_retry": False,
@@ -16,7 +16,7 @@ default_args = {
     "retry_delay": timedelta(minutes=5)
 }
 
-with DAG("s3_transformer", default_args=default_args, schedule_interval=timedelta(1)) as dag:
+with DAG("transformer", default_args=default_args, schedule_interval=timedelta(1)) as dag:
 
     t1 = BashOperator(
         task_id='bash_test',
