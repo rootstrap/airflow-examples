@@ -16,7 +16,7 @@ default_args = {
     "retry_delay": timedelta(minutes=5)
 }
 
-with DAG("transformer", default_args=default_args, schedule_interval=timedelta(1)) as dag:
+with DAG("xml_transformer", default_args=default_args, schedule_interval= '@once') as dag:
 
     t1 = BashOperator(
         task_id='bash_test',
