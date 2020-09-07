@@ -1,4 +1,5 @@
 from airflow import DAG
+from airflow.operators import BashOperator
 from airflow.operators.s3_file_transform_operator import S3FileTransformOperator
 
 from datetime import datetime, timedelta
