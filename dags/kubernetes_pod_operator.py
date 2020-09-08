@@ -20,20 +20,8 @@ dag = DAG(
 
 start = DummyOperator(task_id='run_this_first', dag=dag)
 
-passing = KubernetesPodOperator(namespace='airflow',
-                          image="python:3",
-                          name="kubernetes_pod_operator_example",
-                          task_id="kubernetes_pod_operator_example",
-                          cmds=["python", "-c", "print 'Hello'"],
-                          get_logs=True,
-                          in_cluster=True,
-                          log_events_on_failure=True,
-                          is_delete_operator_pod=False,
-                          dag=dag
-                          )
 
-
-passing = KubernetesPodOperator(namespace='default', image="Python:3.6", cmds=["python","-c"], 
+passing = KubernetesPodOperator(namespace='default', image="python:3.6", cmds=["python","-c"], 
   arguments=["print('hello world')"], name="passing-test", task_id="passing-task", get_logs=True, dag=dag )
 
 
