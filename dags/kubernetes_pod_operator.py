@@ -21,7 +21,7 @@ dag = DAG(
 start = DummyOperator(task_id='run_this_first', dag=dag)
 
 
-passing = KubernetesPodOperator(namespace='default', image="python:3.6", cmds=["python","-c"], 
+passing = KubernetesPodOperator(namespace='kubernetes_sample', image="python:3.6", cmds=["python","-c"], 
   arguments=["print('hello world')"], name="passing-test", task_id="passing-task", get_logs=True, dag=dag )
 
 
