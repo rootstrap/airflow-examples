@@ -1,6 +1,0 @@
-DockerOperator(
-    task_id=’web_scraper’,
-    image='XXXXXXXXXXXX.dkr.ecr.us-east-1.amazonaws.com/web_scraper:latest',
-    command='python /home/ubuntu/web_scraper.py',
-    execution_timeout=timedelta(minutes=30),
-    dag=dag)
