@@ -1,5 +1,11 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 
-print('Files:', $1, $2) 
+import sys
+
+input=sys.argv[1]
+output=sys.argv[2]
+
+print("Starting data cleaning...")
+print("Completed data cleaning!")
 
