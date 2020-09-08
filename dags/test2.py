@@ -30,7 +30,7 @@ with DAG("xml_transformer", default_args=default_args, schedule_interval= '@once
         source_s3_key='s3://rs-champz-test/champz/original_data/100.xml',
         dest_s3_key='s3://rs-champz-test/champz/cleaned_data/100.xml',
         replace=False,
-        transform_script='/opt/airflow/dags/scripts/clean_medical_records.py',
+        transform_script='python /opt/airflow/dags/scripts/clean_medical_records.py',
         source_aws_conn_id='s3_connection',
         dest_aws_conn_id='s3_connection'
     )
