@@ -1,11 +1,7 @@
 from airflow import DAG
 from airflow.operators.bash_operator import BashOperator
 from airflow.operators.s3_file_transform_operator import S3FileTransformOperator
-
-from airflow.models import DAG
-    from airflow.contrib.operators.aws_athena_operator import AWSAthenaOperator
-    from datetime import datetime
-
+from airflow.contrib.operators.aws_athena_operator import AWSAthenaOperator
 
 from datetime import datetime, timedelta
 
