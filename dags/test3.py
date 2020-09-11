@@ -29,7 +29,6 @@ with DAG("query_s3", default_args=default_args, schedule_interval= '@once') as d
         database='s3://medical-records/csv',
         query='SELECT * FROM UNNEST(SEQUENCE(0, 100))',
         output_location='s3://rs-champz-test/result-test',
-        database='my_database',
         aws_conn_id='s3_connection'
     )
 
