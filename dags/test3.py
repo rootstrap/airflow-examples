@@ -24,8 +24,23 @@ with DAG("query_s3", default_args=default_args, schedule_interval= '@once') as d
         bash_command='echo "Starting AWSAthenaOperator TEST"'
     )
 
-
     run_query = AWSAthenaOperator(
+        task_id='run_query',
+        database='s3://medical-records/',
+        query='DESCRIBE TABLE csv',
+        output_location='s3://rs-champz-test/result-test',
+        aws_conn_id='s3_connection'
+    )
+
+    run_query2 = AWSAthenaOperator(
+        task_id='run_query',
+        database='s3://medical-records/',
+        query='SHOW PARTITIONS FRPM csv',
+        output_location='s3://rs-champz-test/result-test',
+        aws_conn_id='s3_connection'
+    )
+
+    run_query3 = AWSAthenaOperator(
         task_id='run_query',
         database='s3://medical-records/',
         query='SELECT text FROM csv',
@@ -35,4 +50,6 @@ with DAG("query_s3", default_args=default_args, schedule_interval= '@once') as d
 
 
     t1.set_upstream(run_query)
+    t1.set_upstream(run_quer2)
+    t1.set_upstream(run_quer3)
 
