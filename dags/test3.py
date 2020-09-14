@@ -27,10 +27,18 @@ with DAG("query_s3", default_args=default_args, schedule_interval= '@once') as d
     run_query = AWSAthenaOperator(
         task_id='run_query',
         database='s3://medical-records/csv',
-        query='SELECT * FROM UNNEST(SEQUENCE(0, 100))',
+        query='SHOW PARTITIONS UNNEST(SEQUENCE(0, 100))',
         output_location='s3://rs-champz-test/result-test',
         aws_conn_id='s3_connection'
     )
+
+    #run_query = AWSAthenaOperator(
+    #    task_id='run_query',
+    #    database='s3://medical-records/csv',
+    #    query='SELECT text FROM UNNEST(SEQUENCE(0, 100))',
+    #    output_location='s3://rs-champz-test/result-test',
+    #    aws_conn_id='s3_connection'
+    #)
 
 
     t1.set_upstream(run_query)
