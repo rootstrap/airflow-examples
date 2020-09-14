@@ -33,7 +33,7 @@ with DAG("query_s3", default_args=default_args, schedule_interval= '@once') as d
     )
 
     run_query2 = AWSAthenaOperator(
-        task_id='run_query',
+        task_id='run_query2',
         database='s3://medical-records/',
         query='SHOW PARTITIONS FRPM csv',
         output_location='s3://rs-champz-test/result-test',
@@ -41,10 +41,18 @@ with DAG("query_s3", default_args=default_args, schedule_interval= '@once') as d
     )
 
     run_query3 = AWSAthenaOperator(
-        task_id='run_query',
+        task_id='run_query3',
         database='s3://medical-records/',
         query='SELECT text FROM csv',
         output_location='s3://rs-champz-test/result-test',
+        aws_conn_id='s3_connection'
+    )
+
+    run_query4 = AWSAthenaOperator(
+        task_id='run_query4',
+        database='s3://rs-champz-test/',
+        query='SELECT text FROM csv',
+        output_location='s3://rs-champz-test/',
         aws_conn_id='s3_connection'
     )
 
@@ -52,4 +60,5 @@ with DAG("query_s3", default_args=default_args, schedule_interval= '@once') as d
     t1.set_upstream(run_query)
     t1.set_upstream(run_query2)
     t1.set_upstream(run_query3)
+    t1.set_upstream(run_query4)
 
