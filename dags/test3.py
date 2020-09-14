@@ -27,8 +27,8 @@ with DAG("query_s3", default_args=default_args, schedule_interval= '@once') as d
 
     run_query = AWSAthenaOperator(
         task_id='run_query',
-        database='s3://medical-records/csv',
-        query='SELECT text FROM UNNEST(SEQUENCE(0, 100))',
+        database='s3://medical-records/',
+        query='SELECT text FROM csv',
         output_location='s3://rs-champz-test/result-test',
         aws_conn_id='s3_connection'
     )
