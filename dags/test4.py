@@ -27,7 +27,7 @@ with DAG("xml_transformer2", default_args=default_args, schedule_interval= '@onc
     transformer = S3FileTransformOperator(
         task_id='ETL_medical_records2',
         description='cleans ETL_medical_records',
-        source_s3_key='s3://rs-champz-test/champz/original_data',
+        source_s3_key='s3://rs-champz-test/champz/original_data/',
         dest_s3_key='s3://rs-champz-test/champz/cleaned_data/',
         replace=False,
         transform_script='/opt/airflow/dags/scripts/clean_medical_records.py',

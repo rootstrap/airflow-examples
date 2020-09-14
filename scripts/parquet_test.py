@@ -1,8 +1,9 @@
-import s3parq as parq
+from s3parq import S3Parq
 
 bucket = 's3://medical-records/'
 key = 'csv'
-dataframe = pd.DataFrame()
 
-pandas_dataframe = parq.fetch(  bucket=bucket,
-                                key=key)
+df = pd.DataFrame()
+parq = S3Parq(bucket=bucket,dataset=df)
+retrieved_dataframe = parq.fetch()
+
