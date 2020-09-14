@@ -50,6 +50,6 @@ with DAG("query_s3", default_args=default_args, schedule_interval= '@once') as d
 
 
     t1.set_upstream(run_query)
-    t1.set_upstream(run_quer2)
-    t1.set_upstream(run_quer3)
+    t1.set_upstream(run_query2)
+    t1.set_upstream(run_query3)
 
