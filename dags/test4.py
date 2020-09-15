@@ -24,7 +24,7 @@ with DAG(dag_id='athena_query_and_move',
         task_id='move_results',
         source_s3_key='s3://mybucket/mypath/{{ task_instance.xcom_pull(task_ids="run_query") }}.csv',
         dest_s3_key='s3://rs-champz-test/parquet-test/{{ task_instance.xcom_pull(task_ids="run_query") }}.parquet',
-        transform_script='parquet_test.py'
+        transform_script='/opt/airflow/dags/scripts/parquet_test.py'
     )
     
 move_results.set_upstream(run_query)
