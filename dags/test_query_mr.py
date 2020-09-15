@@ -27,7 +27,7 @@ with DAG("mr_test", default_args=default_args, schedule_interval= '@once') as da
     run_query = AWSAthenaOperator(
         task_id='run_query',
         database='mr-csv',
-        query='select text FROM mr-csv.mr-csv',
+        query='select text FROM "mr-csv"."mr-csv"',
         output_location='s3://rs-champz-test/result-test',
         aws_conn_id='s3_connection'
     )
