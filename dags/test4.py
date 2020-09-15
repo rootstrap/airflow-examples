@@ -1,7 +1,9 @@
 from airflow.models import DAG
 from airflow.contrib.operators.aws_athena_operator import AWSAthenaOperator
 from airflow.operators.s3_file_transform_operator import S3FileTransformOperator
-from datetime import datetime
+
+from datetime import datetime, timedelta
+
 
 class XComEnabledAWSAthenaOperator(AWSAthenaOperator):
     def execute(self, context):
