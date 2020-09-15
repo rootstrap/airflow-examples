@@ -1,6 +1,6 @@
 from airflow import DAG
 from airflow.operators.bash_operator import BashOperator
-from airflow.operators.s3_file_transform_operator import S3FileTransformOperator
+from airflow.operators.s3_file_transform_operator import S3ToRedshiftOperator, S3FileTransformOperator
 
 from datetime import datetime, timedelta
 
@@ -23,18 +23,16 @@ with DAG("xml_transformer2", default_args=default_args, schedule_interval= '@onc
         bash_command='echo "hello, it should work" > s3_conn_test.txt'
     )
 
-
-    transformer = S3FileTransformOperator(
-        task_id='ETL_medical_records2',
+    task_transfer_s3_to_redshift = S3ToRedshiftOperator(
+        task_id='transfer_s3_to_redshift',
         description='cleans ETL_medical_records',
-        source_s3_key='s3://rs-champz-test/champz/original_data/',
-        dest_s3_key='s3://rs-champz-test/champz/cleaned_data/',
-        replace=False,
-        transform_script='/opt/airflow/dags/scripts/clean_medical_records.py',
-        source_aws_conn_id='s3_connection',
-        dest_aws_conn_id='s3_connection',
-        select_expression='select * from original_data'
+        aws_conn_id='s3_connection',
+        schema="PUBLIC",
+        table='patient',
+        copy_options=['csv'],
+        redshift_conn_id='redshift_connection'
     )
 
-    t1.set_upstream(transformer)
+
+    t1.set_upstream(task_transfer_s3_to_redshift)
 
