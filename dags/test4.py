@@ -36,7 +36,7 @@ with DAG("query_s3_athena", default_args=default_args, schedule_interval= '@once
         dest_s3_key='s3://rs-champz-test/parquet-test/{{ task_instance.xcom_pull(task_ids="run_query") }}.parquet',
         transform_script='/opt/airflow/dags/scripts/parquet_test.py',
         source_aws_conn_id='s3_connection',
-        dest_aws_conn_id='s3_connection'
+        dest_aws_conn_id='s3_connection',
         replace=False
     )
     
