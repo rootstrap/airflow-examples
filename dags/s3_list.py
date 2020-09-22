@@ -1,7 +1,8 @@
 from airflow import DAG
 from airflow.operators.bash_operator import BashOperator
-from airflow.operators.s3_file_transform_operator import S3FileTransformOperator
-from airflow.contrib.operators.aws_athena_operator import AWSAthenaOperator
+from airflow.hooks.S3_hook import S3Hook
+from airflow.operators.dummy_operator import DummyOperator
+from airflow.operators.python import BranchPythonOperator
 
 from datetime import datetime, timedelta
 
@@ -22,20 +23,25 @@ def list_files(**kwargs):
     s3.get_conn()
     files = s3.list_prefixes(self, bucket_name='s3://rs-champz-test/champz/original_data/')
     print("BUCKET:  {}".format(files))
+    return len(files)!=0
 
 
 with DAG("list_files", default_args=default_args, schedule_interval= '@once') as dag:
 
-    t1 = BashOperator(
-        task_id='bash_test',
-        bash_command='echo "Starting AWSAthenaOperator TEST"'
-    )
+start_op = BashOperator(
+    task_id='bash_test',
+    bash_command='echo "Starting AWSAthenaOperator TEST"'
+)
 
-    check_for_files = BranchPythonOperator(
-        task_id='list_files',
-        provide_context=True,
-        python_callable=GetFiles,
-        dag=dag
-    )
+branch_op = BranchPythonOperator(
+    task_id='list_files',
+    provide_context=True,
+    python_callable=getfiles,
+    dag=dag
+)
 
-    t1.set_upstream(check_for_files)
+continue_op = DummyOperator(task_id='continue_task', dag=dag)
+
+stop_op = DummyOperator(task_id='stop_task', dag=dag)
+
+start_op >> branch_op >> [continue_op, stop_op]
