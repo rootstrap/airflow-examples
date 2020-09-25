@@ -1,2 +1,0 @@
-pip install s3parq==0.0.1
-

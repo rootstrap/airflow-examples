@@ -20,8 +20,8 @@ default_args = {
     "retry_delay": timedelta(minutes=5)
 }
 
-def hello(file):
-    print('Hello!!!! ', file)
+def process_file(file):
+    print('Processing file ', file)
 
 
 def loop_files(parent_dag_name, child_dag_name, args):
