@@ -182,9 +182,9 @@ When you run it it, from the web it appears the option to enter to the subdag's 
 
 This example list the files in a s3 bucket and for each file creates a subdag "hellow_wold_X". 
 
-![](iamges/subdags.png)
+![](images/subdags.png)
 
-Problem: too many tasks are queued and it is probable that the 
+Problem: too many tasks are queued and it is probable that you will need to add more workers.  
 
 
 # Error and fixes:
