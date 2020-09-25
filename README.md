@@ -10,7 +10,7 @@ Airflow is a platform to programmatically author, schedule and monitor workflows
 
 **User interface:** visualize pipelines running in production, monitor progress, and troubleshoot issues when needed.
 
-* **Airflow executors:** Executors are the mechanism by which task instances get run. Airflow has different executors, you can them find [here](https://airflow.apache.org/docs/stable/executor/index.html). Here are the most common:
+**Airflow executors:** Executors are the mechanism by which task instances get run. Airflow has different executors, you can them find [here](https://airflow.apache.org/docs/stable/executor/index.html). Here are the most common:
 
 - SequentialExecutor is the default executor. The asks are executed sequentially.        
 - LocalExecutor you can run locally multiple jobs in parallel. LocalExecutor runs the task on the same node as the scheduler.    
@@ -84,8 +84,7 @@ You can use the command line to check the configured dags:
 ```bash
 kubectl exec -ti airflow-worker-0 -c airflow-worker -- ls /opt/airflow/dags/dags/
 ```
-
-**See logs: **
+**See logs:**
 
 See the logs for a certgian task from the web: 
 Click on the task and press the 'View Log' button. 
@@ -121,7 +120,7 @@ kubectl logs airflow-worker-0 -f airflow-worker
 This example contains 3 bash tasks, which 2 of them can execute in parallel. 
 To execute this example, activate the tutorial DAG. Enter to the view for the DAG and you will see that the first task of the DAG will be scheduled and then queued to be executed.
 
-![](image/picture3.png)
+![](images/picture3.png)
 
 **[PythonOperator](https://airflow.apache.org/docs/stable/howto/operator/python.html)**
 
@@ -153,7 +152,6 @@ Setting the ``source_aws_conn_id`` and ``dest_aws_conn_id`` to the connection id
 
 It is important the the script that you set in the S3FileTransformOperator starts with **#!/usr/bin/python3 **in the case of python.      
 
-
 **Problem: if your script needs specific libraries to be installed (for example needs pandas), those are not installed in the worker, so when it executes the task gives you an error. For this problem there is not a clean solution, unless instead of celery you use KubernetesExecutor.**
 
 **[AWSAthenaOperator](dags/test_aws_athena_operator.py)**
@@ -174,7 +172,7 @@ If you have the following error:
 ```
 Add in_cluster=True in the DAG in order to specify that the pod will run in the same cluster. 
 
-**[SubdagOperator]()**
+**[SubdagOperator](dags/test_subdag_operator.py)**
 Creates dynamically a subdag inside the dag. 
 
 When you run it it, from the web it appears the option to enter to the subdag's information and logs:
