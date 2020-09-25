@@ -26,9 +26,9 @@ with DAG("query_s3", default_args=default_args, schedule_interval= '@once') as d
 
     run_query = AWSAthenaOperator(
         task_id='run_query',
-        database='prototype',
-        query='SELECT * FROM patient',
-        output_location='s3://rs-champz-test/result-test',
+        database='mr-csv',
+        query='select text FROM "{DATABASE}"."{TABLE}"',
+        output_location='s3://s3://XXX/YYY/ZZZ',
         aws_conn_id='s3_connection'
     )
 

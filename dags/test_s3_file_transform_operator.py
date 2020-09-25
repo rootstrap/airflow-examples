@@ -27,10 +27,10 @@ with DAG("xml_transformer", default_args=default_args, schedule_interval= '@once
     transformer = S3FileTransformOperator(
         task_id='ETL_medical_records',
         description='cleans ETL_medical_records',
-        source_s3_key='s3://rs-champz-test/champz/original_data/100.xml',
-        dest_s3_key='s3://rs-champz-test/champz/cleaned_data/100.xml',
+        source_s3_key='s3://XXX/YYY/ZZZ.xml',
+        dest_s3_key='s3://XXX/YYY/WWW.xml',
         replace=False,
-        transform_script='/opt/airflow/dags/scripts/clean_medical_records.py',
+        transform_script='/opt/airflow/dags/scripts/transform.py',
         source_aws_conn_id='s3_connection',
         dest_aws_conn_id='s3_connection'
     )
