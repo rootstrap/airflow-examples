@@ -1,8 +1,9 @@
-# Airflow Experiments
+# Apache Airflow Experiments
 
 This repo contains different experiments performed with Apache Airflow in order to validate the possibilities that this tool 
 provides for creating ETL worflows. 
 
+# What is Apache Airflow?
 Airflow is a platform to programmatically author, schedule and monitor workflows as Directed Acyclic Graphs (DAGs) of tasks. The main components are: 
 
 
