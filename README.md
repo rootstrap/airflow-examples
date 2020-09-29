@@ -233,7 +233,7 @@ s3.list_prefixes(bucket_name='rs-champz-test', prefix='champz/original_data/')
 
 - Lessons [https://wecode.wepay.com/posts/airflow-wepay](https://wecode.wepay.com/posts/airflow-wepay) - **Don’t use CeleryExecutor unless you have to**
 - **DAG update:** push to the configured branch to new DAG version
-- [https://www.astronomer.io/guides/dag-best-practices/](https://www.astronomer.io/guides/dag-best-practices/)
+- [DAG - best practices](https://www.astronomer.io/guides/dag-best-practices/)
 - Common errors: [https://www.astronomer.io/blog/7-common-errors-to-check-when-debugging-airflow-dag/](https://www.astronomer.io/blog/7-common-errors-to-check-when-debugging-airflow-dag/)
 - Best practices for testing DAGs [https://airflow.readthedocs.io/en/stable/best-practices.html](https://airflow.readthedocs.io/en/stable/best-practices.html)
 
