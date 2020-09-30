@@ -227,23 +227,22 @@ kubectl get pods | grep Error | cut -d' ' -f 1 | xargs kubectl delete pod
 List files: Invalid bucket name → Solution
 
 ```bash
-s3.list_prefixes(bucket_name='rs-champz-test', prefix='champz/original_data/')
+s3.list_prefixes(bucket_name='{BUCKET_NAME}', prefix='{DATA_PATH}')
 ```
 # TIPS For Airflow
 
-- Lessons [https://wecode.wepay.com/posts/airflow-wepay](https://wecode.wepay.com/posts/airflow-wepay) - **Don’t use CeleryExecutor unless you have to**
-- **DAG update:** push to the configured branch to new DAG version
-- [https://www.astronomer.io/guides/dag-best-practices/](https://www.astronomer.io/guides/dag-best-practices/)
-- Common errors: [https://www.astronomer.io/blog/7-common-errors-to-check-when-debugging-airflow-dag/](https://www.astronomer.io/blog/7-common-errors-to-check-when-debugging-airflow-dag/)
-- Best practices for testing DAGs [https://airflow.readthedocs.io/en/stable/best-practices.html](https://airflow.readthedocs.io/en/stable/best-practices.html)
+- Lessons [**Don’t use CeleryExecutor unless you have to**]
+(https://wecode.wepay.com/posts/airflow-wepay)         
+- [**DAG update:**](https://www.astronomer.io/guides/dag-best-practices/) push to the configured branch to new DAG version   
+- [Common errors:](https://www.astronomer.io/blog/7-common-errors-to-check-when-debugging-airflow-dag/)     
+- [Best practices for testing DAGs](https://airflow.readthedocs.io/en/stable/best-practices.html)    
 
 **Monitoring Airflow**
-
 - Prometheus
 - Elastic search - for logs or S3
-- A series of DAGs/Workflows to help maintain the operation of Airflow: [https://github.com/teamclairvoyant/airflow-maintenance-dags](https://github.com/teamclairvoyant/airflow-maintenance-dags)
+- [A series of DAGs/Workflows to help maintain the operation of Airflow:](https://github.com/teamclairvoyant/airflow-maintenance-dags)
 
-**Use cases**.  
+**Use cases**       
 
 - [https://www.benevolent.com/engineering-blog/using-airflow-with-kubernetes-at-benevolentai](https://www.benevolent.com/engineering-blog/using-airflow-with-kubernetes-at-benevolentai)
 - [https://www.astronomer.io/blog/astronomer-on-astronomer-internal-use-case/](https://www.astronomer.io/blog/astronomer-on-astronomer-internal-use-case/)

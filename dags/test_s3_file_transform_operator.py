@@ -16,7 +16,7 @@ default_args = {
     "retry_delay": timedelta(minutes=5)
 }
 
-with DAG("xml_transformer", default_args=default_args, schedule_interval= '@once') as dag:
+with DAG("s3_transformer", default_args=default_args, schedule_interval= '@once') as dag:
 
     t1 = BashOperator(
         task_id='bash_test',
@@ -25,7 +25,7 @@ with DAG("xml_transformer", default_args=default_args, schedule_interval= '@once
 
 
     transformer = S3FileTransformOperator(
-        task_id='ETL_medical_records',
+        task_id='ETL_records',
         description='cleans ETL_medical_records',
         source_s3_key='s3://XXX/YYY/ZZZ.xml',
         dest_s3_key='s3://XXX/YYY/WWW.xml',
