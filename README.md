@@ -1,8 +1,9 @@
-# Airflow Experiments
+# Apache Airflow Experiments
 
 This repo contains different experiments performed with Apache Airflow in order to validate the possibilities that this tool 
 provides for creating ETL worflows. 
 
+# What is Apache Airflow?
 Airflow is a platform to programmatically author, schedule and monitor workflows as Directed Acyclic Graphs (DAGs) of tasks. The main components are: 
 
 
@@ -66,11 +67,14 @@ docker-compose -f docker-compose-CeleryExecutor.yml up -d
 ```
 
 ## Run on Kubernetes 
-- [https://kubernetes.io/blog/2018/06/28/airflow-on-kubernetes-part-1-a-different-kind-of-operator/](https://kubernetes.io/blog/2018/06/28/airflow-on-kubernetes-part-1-a-different-kind-of-operator/)
-- [https://docs.bitnami.com/tutorials/deploy-apache-airflow-kubernetes-helm/](https://docs.bitnami.com/tutorials/deploy-apache-airflow-kubernetes-helm/)
-- [https://towardsdatascience.com/a-journey-to-airflow-on-kubernetes-472df467f556](https://towardsdatascience.com/a-journey-to-airflow-on-kubernetes-472df467f556)
-- [https://docs.bitnami.com/kubernetes/get-started-eks/](https://docs.bitnami.com/kubernetes/get-started-eks/)
+Why? To provide more flexibility among dependencies of your workflows. Create independent tasks, each one with their dependencies and configurations.
+You can check this [link](https://kubernetes.io/blog/2018/06/28/airflow-on-kubernetes-part-1-a-different-kind-of-operator/) for more information about the architecture. 
 
+![Airflow and Kubernetes](https://d33wubrfki0l68.cloudfront.net/e44605275679b1770accd7849546d67e6b57ace8/17860/images/blog/2018-05-25-airflow-kubernetes-operator/2018-05-25-airflow-architecture.png)
+
+- Follow this [tutorial](https://docs.bitnami.com/tutorials/deploy-apache-airflow-kubernetes-helm/) to install airflow on kubernetes using helm. 
+- If you want to run on Amazon EKS download this [tutorial](https://docs.bitnami.com/kubernetes/get-started-eks/)
+- You can find in this [blog](https://towardsdatascience.com/a-journey-to-airflow-on-kubernetes-472df467f556) an introduction and an example.
 
 
 ## Basic Operations
@@ -148,7 +152,7 @@ aws s3api list-buckets --query Owner.Ioutput text
 
 In order to test the connection you can create a DAG that contains a [S3KeySensor](dags/sensor_s3.py). If the DAG is working then, you can create the [DAG](dags/test_s3_file_trainform_operator.py) with the S3FileTransformOperator.        
 
-Setting the ``source_aws_conn_id`` and ``dest_aws_conn_id`` to the connection id `` in this case. In the transform_script parameter goes the complete path for the script that you want to execute to transform the file.
+Setting the ``source_aws_conn_id`` and ``dest_aws_conn_id`` to the connection id in this case. In the transform_script parameter goes the complete path for the script that you want to execute to transform the file.
 
 It is important the the script that you set in the S3FileTransformOperator starts with **#!/usr/bin/python3 **in the case of python.      
 
@@ -230,7 +234,6 @@ List files: Invalid bucket name → Solution
 s3.list_prefixes(bucket_name='{BUCKET_NAME}', prefix='{DATA_PATH}')
 ```
 # TIPS For Airflow
-
 - Lessons [**Don’t use CeleryExecutor unless you have to**]
 (https://wecode.wepay.com/posts/airflow-wepay)         
 - [**DAG update:**](https://www.astronomer.io/guides/dag-best-practices/) push to the configured branch to new DAG version   
