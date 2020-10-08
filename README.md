@@ -30,7 +30,7 @@ These are the componentes of the architecture:
 - A **message broker** (RabbitMQ): it stores the task commands to be run in queues.
 - Airflow **Celery workers**: they retrieve the commands from the queues, execute them and update the metadata.
 
-![Airflow Architecture with Celery Executor](https://miro.medium.com/max/2000/1*avBjYUY6ZtfEyTkk7FI8JQ.png)
+![https://miro.medium.com/max/2000/1*avBjYUY6ZtfEyTkk7FI8JQ.png](https://miro.medium.com/max/2000/1*avBjYUY6ZtfEyTkk7FI8JQ.png)
 
 So, the airflow scheduler schedule the tasks through the celery executor, which enqueue the tasks in a redis queue. Each of the workers take the queued tasks to bee executed. 
 
