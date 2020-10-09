@@ -52,7 +52,7 @@ Each of the tasks is implemented with an Operator. Different types of operator e
 
 ## Run locally 
 
-You can run locally the kubernetes cluster for airflow locally with docker-compose. Downlowad this [repo](https://github.com/puckel/docker-airflow])
+You can run locally the kubernetes cluster for airflow locally with docker-compose. Downlowad this [repo](https://github.com/puckel/docker-airflow)
 
 This docker-compose runs an airflow architecture composed by:    
 	- 1 worker, scheduler       
