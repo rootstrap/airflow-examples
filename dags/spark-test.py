@@ -31,6 +31,7 @@ spark_submit_task = SparkSubmitOperator(
     java_class='org.apache.spark.examples.SparkPi',
     application='local:///opt/spark/examples/src/main/python/pi.py',
     name='airflowspark-test',
+    spark_binary='kubectl exec -ti --namespace default rs-spark-worker-0 -- spark-submit',
     verbose=True,
     conf={
         'spark.kubernetes.container.image': 'mikaelapisani/spark-py:1.0',
