@@ -128,9 +128,15 @@ To execute this example, activate the tutorial DAG. Enter to the view for the DA
 
 ![](images/picture3.png)
 
-**[PythonOperator](https://airflow.apache.org/docs/stable/howto/operator/python.html)**
+**[PythonOperator](dags/test_python_operator.py)**
 
-A python operator might be used when you want to execute python code for the task. 
+This example contains a minimal example to demonstrate usage of the Python Operator in four steps:
+1. Define the DAG
+2. Define the Python functions to be executed
+3. Define the Python Operators
+4. Configure sequence of tasks in the DAG
+
+Python Operators allow you to run Python functions as a task in the DAG, making it simple to add automation to existing code bases in Python. Positional and keyword arguments can be passed via `op_args` and `op_kwargs` arguments when defining the tasks. The return object of the Python functions will be recorded in `airflow` logs.
 
 **[S3FileTransformOperator](dags/test_s3_file_transform_operator.py)**
 
