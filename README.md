@@ -196,6 +196,11 @@ This example list the files in a s3 bucket and for each file creates a subdag "h
 
 Problem: too many tasks are queued and it is probable that you will need to add more workers.  
 
+**[Branching operator](dags/test_branching_operator.py)**
+
+This operator allows dynamic selection of a path in a multi path DAG. In the example implementation, the branching operator selects an odd or even path. The selection of a path is convention based, that is, the value returned from the `python_callable` method is the `task_id` of the next task to run. Refer to the code for more details. Triggering the DAG multiple times will select either the odd or even path randomly, skipping the non selected path. One challenge being faced at this point is that it also skips the last task. This is still a work in progress and a PR will be created as soon as this is fixed. In the mean time, the DAG looks like the image below using the graph view on airflow webserver.
+
+![image](images/branching_operator.png)
 
 # Error and fixes:
 
