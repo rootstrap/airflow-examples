@@ -32,7 +32,7 @@ def loop_files(parent_dag_name, child_dag_name, args):
     )
     s3 = S3Hook(aws_conn_id='s3_connection')
     s3.get_conn()
-    files = s3.list_keys(bucket_name='XXX', prefix='YYY/ZZZ', delimiter='/')
+    files = s3.list_keys(bucket_name='medical-records', prefix='origin/104.xml', delimiter='/')
     if files is None: 
         return;
     tasks = []
