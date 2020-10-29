@@ -257,6 +257,7 @@ INFO - max_active_runs limit for dag subdagtest.load_tasks has been reached  - w
 - [**DAG update:**](https://www.astronomer.io/guides/dag-best-practices/) push to the configured branch to new DAG version   
 - [Common errors:](https://www.astronomer.io/blog/7-common-errors-to-check-when-debugging-airflow-dag/)     
 - [Best practices for testing DAGs](https://airflow.readthedocs.io/en/stable/best-practices.html)    
+- [ETL principles in Airflow](https://gtoonstra.github.io/etl-with-airflow/principles.html)
 
 **Monitoring Airflow**
 - Prometheus
