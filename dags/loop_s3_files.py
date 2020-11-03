@@ -43,7 +43,7 @@ def loop_files(parent_dag_name, child_dag_name, args):
         tasks = tasks + [PythonOperator(
             task_id='hello_world_' + str(i),
             op_kwargs={'file': file},
-            python_callable=hello,
+            python_callable=process_file,
             dag=dag_subdag)]
         i=i+1
 
