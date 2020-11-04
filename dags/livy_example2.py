@@ -24,7 +24,7 @@ default_args = {
     "retry_delay": timedelta(minutes=5),
 }
 
-dag = DAG("livy-test", default_args=default_args,schedule_interval= '@once')
+dag = DAG("livy-test2", default_args=default_args,schedule_interval= '@once')
 
 t1 = BashOperator(task_id="print_date", bash_command="date", dag=dag)
 
