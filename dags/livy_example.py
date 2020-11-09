@@ -7,8 +7,7 @@ Example taken from https://github.com/apache/airflow/blob/master/airflow/provide
 from airflow import DAG
 from airflow.operators.bash_operator import BashOperator
 from airflow.contrib.operators.spark_submit_operator import SparkSubmitOperator
-#from airflow.providers.apache.livy.operators.livy import LivyOperator
-from airflow.operators.http_operator import SimpleHttpOperator
+from airflow.providers.apache.livy.operators.livy import LivyOperator
 
 from datetime import datetime, timedelta
 
@@ -28,25 +27,20 @@ dag = DAG("livy-test", default_args=default_args,schedule_interval= '@once')
 
 t1 = BashOperator(task_id="print_date", bash_command="date", dag=dag)
 
-spark_task = task_get_op = SimpleHttpOperator(
-    task_id='spark-test-livy',
-    method='POST',
-    endpoint='/batches',
-    data={
-        "name": "SparkPi-01",
-        "className": "org.apache.spark.examples.SparkPi",
-        "numExecutors": 2,
-        "file": "local:///opt/spark/examples/src/main/python/pi.py",
-        "args": ["10"],
-        "conf": {
-            "spark.kubernetes.container.image": "mikaelapisani/spark-py:1.0",
-            "spark.kubernetes.authenticate.driver.serviceAccountName": "spark"
-        }
-      },
-    headers={'Content-Type': 'application/json'},
-    http_conn_id='livy_conn_id',
+spark_task = LivyOperator(
+    rask_id='spark_task',
+    file='local:///opt/spark/examples/src/main/python/pi.py', 
+    class_name='org.apache.spark.examples.SparkPi', 
+    args=[10], 
+    conf={
+        'spark.kubernetes.container.image': 'mikaelapisani/spark-py:1.0',
+        'spark.kubernetes.authenticate.driver.serviceAccountName': 'spark'
+    },
+    livy_conn_id='livy_conn_id',
+    polling_interval = 60,
     dag=dag
-)
+) 
 
+  
 
 spark_task.set_upstream(t1)

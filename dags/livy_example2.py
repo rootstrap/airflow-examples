@@ -6,9 +6,9 @@ Example taken from https://github.com/apache/airflow/blob/master/airflow/provide
 """
 from airflow import DAG
 from airflow.operators.bash_operator import BashOperator
-from airflow.contrib.operators.spark_submit_operator import SparkSubmitOperator
-#from airflow.providers.apache.livy.operators.livy import LivyOperator
+from airflow.operator.python import PythonOperator
 from airflow.operators.http_operator import SimpleHttpOperator
+from airflow.sensors.http_sensor import HttpSensor 
 
 from datetime import datetime, timedelta
 
@@ -28,7 +28,24 @@ dag = DAG("livy-test2", default_args=default_args,schedule_interval= '@once')
 
 t1 = BashOperator(task_id="print_date", bash_command="date", dag=dag)
 
-spark_task = task_get_op = SimpleHttpOperator(
+"""
+Statement State
+Value   Description
+waiting Statement is enqueued but execution hasn't started
+running Statement is currently running
+available   Statement has a response ready
+error   Statement failed
+cancelling  Statement is being cancelling
+cancelled   Statement is cancelled
+"""
+def check_state(response):
+    value = response.json()['state']
+    print('state=:' + value)
+    return (value == 'available' || value == 'error' || value == 'cancelled')
+
+
+
+spark_task  = SimpleHttpOperator(
     task_id='spark-test-livy',
     method='POST',
     endpoint='/batches',
@@ -44,9 +61,31 @@ spark_task = task_get_op = SimpleHttpOperator(
         }
       },
     headers={'Content-Type': 'application/json'},
+    xcom_push=True,
+    response_check=check_state,
     http_conn_id='livy_conn_id',
     dag=dag
 )
 
+def print_response(response):
+    print("######################################")
+    print(response)
+    print("######################################")
+
+
+print_response = task_archive_s3_file = PythonOperator(
+    task_id='archive_s3_file',
+    dag=dag,
+    python_callable=obj.print_response,
+    provide_context=True,
+    dag)
+
+"""spark_sensor = HttpSensor(
+    task_id='spark-sensor-livy',
+    method='GET',
+    endpoint='/batches',
+    http_conn_id='livy_conn_id',
+    )"""
 
 spark_task.set_upstream(t1)
+print_response.set_upstream(spark_task)
