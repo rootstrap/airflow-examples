@@ -41,7 +41,7 @@ cancelled   Statement is cancelled
 def check_state(response):
     value = response.json()['state']
     print('state=:' + value)
-    return (value == 'available' || value == 'error' || value == 'cancelled')
+    return (value == 'available' or value == 'error' or value == 'cancelled')
 
 
 
