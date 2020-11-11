@@ -70,12 +70,11 @@ def check_state(response):
     value = response.json()['state']
     print('state=:' + value)
     session_state = SessionState(value)
-    return (state == SessionState.success 
-        or state == SessionState.killed 
-        or state == SessionState.dead 
-        or state == SessionState.error
-        or state == SessionState.cancelled
-        )
+    return session_state in [SessionState.success, 
+                            SessionState.killed, 
+                            SessionState.dead , 
+                            SessionState.error, 
+                            SessionState.cancelled]
 
 def get_id(**context):
     response = context['ti'].xcom_pull(task_ids='spark-task')
