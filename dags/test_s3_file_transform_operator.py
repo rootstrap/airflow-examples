@@ -27,11 +27,6 @@ with DAG("s3_transformer", default_args=default_args, schedule_interval= '@once'
 
     start = DummyOperator(task_id='start')
 
-    t1 = BashOperator(
-        task_id='bash_test',
-        bash_command='echo "Testing File transform" > s3_conn_test.txt'
-    )
-
 
     transformer = S3FileTransformOperator(
         task_id='transform_s3_data',
@@ -44,6 +39,5 @@ with DAG("s3_transformer", default_args=default_args, schedule_interval= '@once'
         dest_aws_conn_id='s3_connection'
     )
 
-    start.set_upstream(t1)
-    t1.set_upstream(transformer)
+    transformer.set_upstream(start)
 

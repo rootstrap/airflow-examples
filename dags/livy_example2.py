@@ -13,6 +13,8 @@ from airflow.sensors.http_sensor import HttpSensor
 from datetime import datetime, timedelta
 import json 
 from enum import Enum
+import uuid
+
 
 default_args = {
     "owner": "airflow",
@@ -30,33 +32,40 @@ dag = DAG("livy-test2", default_args=default_args, schedule_interval= '@once')
 t1 = BashOperator(task_id="print_date", bash_command="date", dag=dag)
 
 """
-Statement State
-    Value   Description
-    waiting Statement is enqueued but execution hasn't started
-    running Statement is currently running
-    available   Statement has a response ready
-    error   Statement failed
-    cancelling  Statement is being cancelling
-    cancelled   Statement is cancelled
-    success
-    dead
+Session State
+     Value  Description
+    not_started Session has not been started
+    starting    Session is starting
+    idle    Session is waiting for input
+    busy    Session is executing a statement
+    shutting_down   Session is shutting down
+    error   Session errored out
+    dead    Session has exited
+    killed  Session has been killed
+    success Session is successfully stopped
 """
 
-class State(Enum):
-    waiting = 'waiting'
-    running = 'running'
+class SessionState(Enum):
+    not_started = 'not_started'
+    starting = 'starting'
+    idle = 'idle'
     available = 'available'
-    error = 'available'
-    cancelling = 'cancelling'
-    cancelled = 'cancelled'
+    busy = 'busy'
+    shutting_down = 'shutting_down'
+    error = 'error'
     dead = 'dead'
+    killed = 'killed'
     success = 'success'
 
 def check_state(response):
     value = response.json()['state']
     print('state=:' + value)
-    state = str(State(value))
-    return (state == 'success' or state=='error' or state=='cancelling' or state =='cancelled')
+    session_state = SessionState(value)
+    return (state == SessionState.success 
+        or state == SessionState.killed 
+        or state == SessionState.dead 
+        or state == SessionState.error
+        )
 
 def get_id(**context):
     response = context['ti'].xcom_pull(task_ids='spark-test-livy')
@@ -64,20 +73,28 @@ def get_id(**context):
     response = json.loads(response)
     return response['id']
 
+generate_uuid = PythonOperator(
+        task_id='generate_uuid',
+        python_callable=lambda: str(uuid.uuid4()),
+        xcom_push=True,
+        dag = dag
+    )
+
+
 spark_task  = SimpleHttpOperator(
-    task_id='spark-test-livy',
+    task_id='spark-task',
     method='POST',
     endpoint='/batches',
     data=json.dumps({
-        "name": "SparkPi-06", #TODO: generate id 
-        "className": "org.apache.spark.examples.SparkPi",
-        "numExecutors": 2,
-        "file": "local:///opt/spark/examples/src/main/python/pi.py",
-        "args": ["10"],
-        "conf": {
-            "spark.kubernetes.container.image": "mikaelapisani/spark-py:1.0",
-            "spark.kubernetes.driver.pod.name" : "spark-pi-driver",
-            "spark.kubernetes.authenticate.driver.serviceAccountName": "spark"
+        'name': 'spark-task-{{ti.xcom_pull("generate_uuid")}}', 
+        'className': 'org.apache.spark.examples.SparkPi',
+        'numExecutors': 2,
+        'file': 'local:///opt/spark/examples/src/main/python/pi.py',
+        'args': ['10'],
+        'conf': {
+            'spark.kubernetes.container.image': 'mikaelapisani/spark-py:1.0',
+            'spark.kubernetes.driver.pod.name' : 'driver-{{ti.xcom_pull("generate_uuid")}}',
+            'spark.kubernetes.authenticate.driver.serviceAccountName': 'spark'
         }
       }),
     headers={'Content-Type': 'application/json'},
@@ -99,7 +116,7 @@ get_id  = PythonOperator(
 spark_sensor = HttpSensor(
     task_id='spark-sensor-livy',
     method='GET',
-    endpoint="/batches/{{ti.xcom_pull(task_ids='get_id')}}/state",
+    endpoint='/batches/{{ti.xcom_pull(task_ids="get_id")}}/state',
     http_conn_id='livy_conn_id',
     dag=dag,
     response_check=check_state
