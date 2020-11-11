@@ -94,7 +94,7 @@ spark_task  = SimpleHttpOperator(
         'args': ['10'],
         'conf': {
             'spark.kubernetes.container.image': 'mikaelapisani/spark-py:1.0',
-            'spark.kubernetes.driver.pod.name' : 'driver-{{ti.xcom_pull("generate_uuid")}}',
+            'spark.kubernetes.driver.pod.name' : 'driver-{{ti.xcom_pull(task_ids="generate_uuid")}}',
             'spark.kubernetes.authenticate.driver.serviceAccountName': 'spark'
         }
       }),
