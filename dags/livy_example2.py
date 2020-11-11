@@ -27,10 +27,6 @@ default_args = {
     "retry_delay": timedelta(minutes=5),
 }
 
-dag = DAG("livy-test2", default_args=default_args, schedule_interval= '@once')
-
-t1 = BashOperator(task_id="print_date", bash_command="date", dag=dag)
-
 """
 Session State
     Value  Description
@@ -73,6 +69,12 @@ def get_id(**context):
     response = json.loads(response)
     return response['id']
 
+
+dag = DAG("livy-test2", default_args=default_args, schedule_interval= '@once')
+
+t1 = BashOperator(task_id="print_date", bash_command="date", dag=dag)
+
+
 generate_uuid = PythonOperator(
         task_id='generate_uuid',
         python_callable=lambda: str(uuid.uuid4()),
@@ -102,7 +104,6 @@ spark_task  = SimpleHttpOperator(
     http_conn_id='livy_conn_id',
     dag=dag
 )
-
 
 
 get_id  = PythonOperator(
