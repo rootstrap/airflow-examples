@@ -79,7 +79,7 @@ generate_uuid = PythonOperator(
         dag = dag
     )
 
-print_id = BashOperator(task_id="print_id", bash_command='{{ti.xcom_pull(task_ids="generate_uuid")}}', dag=dag)
+print_id = BashOperator(task_id="print_id", bash_command='echo {{ti.xcom_pull(task_ids="generate_uuid")}}', dag=dag)
 
 
 spark_task  = SimpleHttpOperator(
