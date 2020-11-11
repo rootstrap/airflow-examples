@@ -121,7 +121,7 @@ spark_sensor = HttpSensor(
     dag=dag,
     response_check=check_state
     )
-
-spark_task.set_upstream(t1)
+generate_uuid.set_upstream(t1)
+spark_task.set_upstream(generate_uuid)
 get_id.set_upstream(spark_task)
 spark_sensor.set_upstream(get_id)
