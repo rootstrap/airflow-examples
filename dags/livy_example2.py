@@ -28,6 +28,15 @@ default_args = {
 }
 
 """
+Statement State
+Value   Description
+waiting Statement is enqueued but execution hasn't started
+running Statement is currently running
+available   Statement has a response ready
+error   Statement failed
+cancelling  Statement is being cancelling
+cancelled   Statement is cancelled
+
 Session State
     Value  Description
     not_started Session has not been started
@@ -42,6 +51,11 @@ Session State
 """
 
 class SessionState(Enum):
+    waiting = 'waiting'
+    running = 'running'
+    available = 'available'
+    cancelling = 'cancelling'
+    cancelled = 'cancelled'
     not_started = 'not_started'
     starting = 'starting'
     idle = 'idle'
@@ -61,6 +75,7 @@ def check_state(response):
         or state == SessionState.killed 
         or state == SessionState.dead 
         or state == SessionState.error
+        or state == SessionState.cancelled
         )
 
 def get_id(**context):
