@@ -64,7 +64,7 @@ def check_state(response):
         )
 
 def get_id(**context):
-    response = context['ti'].xcom_pull(task_ids='spark-test-livy')
+    response = context['ti'].xcom_pull(task_ids='spark-task')
     print('Respose:', response)
     response = json.loads(response)
     return response['id']
