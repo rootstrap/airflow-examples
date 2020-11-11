@@ -33,7 +33,7 @@ t1 = BashOperator(task_id="print_date", bash_command="date", dag=dag)
 
 """
 Session State
-     Value  Description
+    Value  Description
     not_started Session has not been started
     starting    Session is starting
     idle    Session is waiting for input
