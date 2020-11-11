@@ -59,7 +59,6 @@ class SessionState(Enum):
     not_started = 'not_started'
     starting = 'starting'
     idle = 'idle'
-    available = 'available'
     busy = 'busy'
     shutting_down = 'shutting_down'
     error = 'error'
