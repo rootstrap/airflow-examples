@@ -72,15 +72,14 @@ def get_id(**context):
 
 dag = DAG("livy-test2", default_args=default_args, schedule_interval= '@once')
 
-t1 = BashOperator(task_id="print_date", bash_command="date", dag=dag)
-
-
 generate_uuid = PythonOperator(
         task_id='generate_uuid',
         python_callable=lambda: str(uuid.uuid4()),
         xcom_push=True,
         dag = dag
     )
+
+print_id = BashOperator(task_id="print_id", bash_command="{{ti.xcom_pull(task_ids="generate_uuid")}}", dag=dag)
 
 
 spark_task  = SimpleHttpOperator(
@@ -122,7 +121,7 @@ spark_sensor = HttpSensor(
     dag=dag,
     response_check=check_state
     )
-generate_uuid.set_upstream(t1)
-spark_task.set_upstream(generate_uuid)
+print_id.set_upstream(generate_uuid)
+spark_task.set_upstream(print_id)
 get_id.set_upstream(spark_task)
 spark_sensor.set_upstream(get_id)
