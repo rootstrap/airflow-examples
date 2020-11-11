@@ -87,14 +87,14 @@ spark_task  = SimpleHttpOperator(
     method='POST',
     endpoint='/batches',
     data=json.dumps({
-        'name': 'spark-task-{{ti.xcom_pull(task_ids="generate_uuid")}}', 
+        'name': "spark-task-{{ti.xcom_pull(task_ids='generate_uuid')}}", 
         'className': 'org.apache.spark.examples.SparkPi',
         'numExecutors': 2,
         'file': 'local:///opt/spark/examples/src/main/python/pi.py',
         'args': ['10'],
         'conf': {
             'spark.kubernetes.container.image': 'mikaelapisani/spark-py:1.0',
-            'spark.kubernetes.driver.pod.name' : 'driver-{{ti.xcom_pull(task_ids="generate_uuid")}}',
+            'spark.kubernetes.driver.pod.name' : "driver-{{ti.xcom_pull(task_ids='generate_uuid')}}",
             'spark.kubernetes.authenticate.driver.serviceAccountName': 'spark'
         }
       }),
