@@ -86,7 +86,7 @@ spark_task  = SimpleHttpOperator(
     method='POST',
     endpoint='/batches',
     data=json.dumps({
-        'name': 'spark-task-{{ti.xcom_pull("generate_uuid")}}', 
+        'name': 'spark-task-{{ti.xcom_pull(task_ids="generate_uuid")}}', 
         'className': 'org.apache.spark.examples.SparkPi',
         'numExecutors': 2,
         'file': 'local:///opt/spark/examples/src/main/python/pi.py',
