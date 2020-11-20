@@ -1,8 +1,10 @@
 
 from airflow import DAG
 from airflow.operators.bash_operator import BashOperator
-from airflow.providers.amazon.aws.transfers.s3_to_redshift import S3ToRedshiftOperator
+#from airflow.providers.amazon.aws.transfers.s3_to_redshift import S3ToRedshiftOperator
+from airflow.operators.s3_to_redshift import S3ToRedshiftOperator
 from airflow.operators.dummy_operator import DummyOperator
+
 
 from datetime import datetime, timedelta
 from airflow.models import Variable
@@ -20,8 +22,6 @@ default_args = {
 }
 
 
-s3_path = Variable.get("cleaned_path")
-
 with DAG("redshift_transformer", default_args=default_args, schedule_interval= '@once') as dag:
 
 
@@ -33,14 +33,14 @@ with DAG("redshift_transformer", default_args=default_args, schedule_interval= '
     )
 
     s3_to_redshift_transformer = S3ToRedshiftOperator(
-    	task_id = 's3_to_redshift_transformer',
+        task_id = 's3_to_redshift_transformer',
         schema = 'PUBLIC',
         table = 'patient',
         s3_bucket = 'patients-records',
-        s3_key = s3_path + '/100.xml',
+        s3_key = '',
         redshift_conn_id = 'redshift_connection',
         aws_conn_id = 's3_connection',
-        copy_options = ['csv'],
+        copy_options = ('csv'),
         truncate_table  = False
     )
 
